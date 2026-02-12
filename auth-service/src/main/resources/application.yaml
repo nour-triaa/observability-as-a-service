@@ -1,0 +1,46 @@
+server:
+  port: 8081
+
+spring:
+  profiles:
+    active: default
+
+  # -------------------------
+  # Security / OAuth2 Client
+  # -------------------------
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: auth-service-client
+            client-secret: 6YPC6zNOvt2sENGlD8AGH2vJtnTM7R7R
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - openid
+              - profile
+              - email
+            provider: keycloak
+            client-name: Keycloak
+        provider:
+          keycloak:
+            issuer-uri: http://keycloak:8080/realms/PFE-Realm
+            authorization-uri: http://keycloak:8080/realms/PFE-Realm/protocol/openid-connect/auth
+            token-uri: http://keycloak:8080/realms/PFE-Realm/protocol/openid-connect/token
+            user-info-uri: http://keycloak:8080/realms/PFE-Realm/protocol/openid-connect/userinfo
+            jwk-set-uri: http://keycloak:8080/realms/PFE-Realm/protocol/openid-connect/certs
+            user-name-attribute: preferred_username
+
+  main:
+    allow-bean-definition-overriding: true
+
+# -------------------------
+# Logging
+# -------------------------
+logging:
+  level:
+    root: INFO
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.web.client: DEBUG
